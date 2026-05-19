@@ -14,16 +14,174 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      allocations: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          date: string
+          id: string
+          lab_id: string
+          section_id: string
+          time_slot: string
+          unused_seats: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          date: string
+          id?: string
+          lab_id: string
+          section_id: string
+          time_slot: string
+          unused_seats?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          date?: string
+          id?: string
+          lab_id?: string
+          section_id?: string
+          time_slot?: string
+          unused_seats?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "allocations_lab_id_fkey"
+            columns: ["lab_id"]
+            isOneToOne: false
+            referencedRelation: "labs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "allocations_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      labs: {
+        Row: {
+          ac: boolean
+          capacity: number
+          created_at: string
+          floor: number
+          id: string
+          lab_type: string
+          name: string
+          status: string
+          systems: number
+        }
+        Insert: {
+          ac?: boolean
+          capacity: number
+          created_at?: string
+          floor?: number
+          id?: string
+          lab_type?: string
+          name: string
+          status?: string
+          systems?: number
+        }
+        Update: {
+          ac?: boolean
+          capacity?: number
+          created_at?: string
+          floor?: number
+          id?: string
+          lab_type?: string
+          name?: string
+          status?: string
+          systems?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      sections: {
+        Row: {
+          created_at: string
+          department: string
+          id: string
+          section_name: string
+          semester: number
+          student_count: number
+        }
+        Insert: {
+          created_at?: string
+          department: string
+          id?: string
+          section_name: string
+          semester: number
+          student_count: number
+        }
+        Update: {
+          created_at?: string
+          department?: string
+          id?: string
+          section_name?: string
+          semester?: number
+          student_count?: number
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "faculty"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +308,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "faculty"],
+    },
   },
 } as const
