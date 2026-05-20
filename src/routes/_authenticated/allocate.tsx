@@ -3,12 +3,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/Page";
+import { RequireAdmin } from "@/components/RequireAdmin";
 import { bestFit } from "@/lib/bestFit";
 import { toast } from "sonner";
 import { Check, X } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/allocate")({
-  component: AllocateEngine,
+  component: () => <RequireAdmin><AllocateEngine /></RequireAdmin>,
   head: () => ({ meta: [{ title: "Allocation Engine — SmartLab" }] }),
 });
 
@@ -27,6 +28,7 @@ function AllocateEngine() {
   const [sectionId, setSectionId] = useState("");
   const [date, setDate] = useState(today);
   const [slot, setSlot] = useState(TIME_SLOTS[0]);
+  const [facultyId, setFacultyId] = useState("");
 
   const { data: labs = [] } = useQuery({
     queryKey: ["labs"],
@@ -40,6 +42,14 @@ function AllocateEngine() {
     queryKey: ["sections"],
     queryFn: async () => {
       const { data, error } = await supabase.from("sections").select("*").order("section_name");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+  const { data: faculty = [] } = useQuery({
+    queryKey: ["faculty-list"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("profiles").select("id, full_name, email").order("full_name");
       if (error) throw error;
       return data ?? [];
     },
@@ -92,6 +102,7 @@ function AllocateEngine() {
         date,
         time_slot: slot,
         unused_seats: result.unusedSeats,
+        faculty_id: facultyId || null,
       });
       if (error) throw error;
       // NOTE: success path does NOT re-run the conflict scan.
@@ -124,7 +135,7 @@ function AllocateEngine() {
             <h2 className="font-semibold text-sm">Configure allocation</h2>
             <span className="text-[10px] font-mono text-muted-foreground uppercase">Best Fit · Greedy</span>
           </div>
-          <div className="p-6 grid lg:grid-cols-3 gap-6">
+          <div className="p-6 grid lg:grid-cols-4 gap-6">
             <Field label="Section">
               <select value={sectionId} onChange={(e) => setSectionId(e.target.value)} className="inp">
                 <option value="">— Pick a section —</option>
@@ -132,6 +143,14 @@ function AllocateEngine() {
                   <option key={s.id} value={s.id}>
                     {s.section_name} · {s.department} · {s.student_count} students
                   </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Faculty (optional)">
+              <select value={facultyId} onChange={(e) => setFacultyId(e.target.value)} className="inp">
+                <option value="">— Unassigned —</option>
+                {(faculty as any[]).map((f) => (
+                  <option key={f.id} value={f.id}>{f.full_name ?? f.email}</option>
                 ))}
               </select>
             </Field>

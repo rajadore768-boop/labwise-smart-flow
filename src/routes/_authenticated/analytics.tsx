@@ -2,10 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/Page";
+import { RequireAdmin } from "@/components/RequireAdmin";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 export const Route = createFileRoute("/_authenticated/analytics")({
-  component: Analytics,
+  component: () => <RequireAdmin><Analytics /></RequireAdmin>,
   head: () => ({ meta: [{ title: "Analytics — SmartLab" }] }),
 });
 

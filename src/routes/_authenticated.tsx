@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth } from "@/hooks/useAuth";
@@ -12,11 +12,20 @@ export const Route = createFileRoute("/_authenticated")({
 function AuthenticatedLayout() {
   const { loading, session, role } = useAuth();
   const nav = useNavigate();
+  const path = useRouterState({ select: (s) => s.location.pathname });
   const [claiming, setClaiming] = useState(false);
 
   useEffect(() => {
     if (!loading && !session) nav({ to: "/login" });
   }, [loading, session, nav]);
+
+  // Redirect default landing per role
+  useEffect(() => {
+    if (loading || !role) return;
+    if (path === "/" || path === "/_authenticated") {
+      nav({ to: role === "admin" ? "/dashboard" : "/my-schedule" });
+    }
+  }, [loading, role, path, nav]);
 
   if (loading || !session) {
     return (
@@ -51,7 +60,7 @@ function AuthenticatedLayout() {
         {role !== "admin" && (
           <div className="border-b border-border bg-warning/10 px-6 py-3 flex items-center justify-between text-sm">
             <span>
-              You are signed in as <strong>faculty</strong>. Need admin access to manage labs?
+              Signed in as <strong>faculty</strong>. Need admin access to manage the institution?
             </span>
             <button
               onClick={claimAdmin}
@@ -67,3 +76,4 @@ function AuthenticatedLayout() {
     </div>
   );
 }
+

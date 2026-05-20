@@ -2,10 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader, StatCard } from "@/components/Page";
+import { RequireAdmin } from "@/components/RequireAdmin";
 import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
-  component: Dashboard,
+  component: () => <RequireAdmin><Dashboard /></RequireAdmin>,
   head: () => ({ meta: [{ title: "Dashboard — SmartLab" }] }),
 });
 

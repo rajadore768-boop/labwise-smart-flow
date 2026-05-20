@@ -19,6 +19,7 @@ export type Database = {
           created_at: string
           created_by: string | null
           date: string
+          faculty_id: string | null
           id: string
           lab_id: string
           section_id: string
@@ -29,6 +30,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           date: string
+          faculty_id?: string | null
           id?: string
           lab_id: string
           section_id: string
@@ -39,6 +41,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           date?: string
+          faculty_id?: string | null
           id?: string
           lab_id?: string
           section_id?: string
@@ -58,6 +61,44 @@ export type Database = {
             columns: ["section_id"]
             isOneToOne: false
             referencedRelation: "sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      attendance: {
+        Row: {
+          allocation_id: string
+          created_at: string
+          faculty_id: string
+          id: string
+          note: string | null
+          present_count: number
+          total_count: number
+        }
+        Insert: {
+          allocation_id: string
+          created_at?: string
+          faculty_id: string
+          id?: string
+          note?: string | null
+          present_count?: number
+          total_count?: number
+        }
+        Update: {
+          allocation_id?: string
+          created_at?: string
+          faculty_id?: string
+          id?: string
+          note?: string | null
+          present_count?: number
+          total_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_allocation_id_fkey"
+            columns: ["allocation_id"]
+            isOneToOne: false
+            referencedRelation: "allocations"
             referencedColumns: ["id"]
           },
         ]
@@ -98,6 +139,33 @@ export type Database = {
         }
         Relationships: []
       }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          read: boolean
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          read?: boolean
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          read?: boolean
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -118,6 +186,66 @@ export type Database = {
           id?: string
         }
         Relationships: []
+      }
+      requests: {
+        Row: {
+          admin_note: string | null
+          allocation_id: string | null
+          created_at: string
+          details: string | null
+          faculty_id: string
+          id: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["request_status"]
+          suggested_lab_id: string | null
+          title: string
+          type: Database["public"]["Enums"]["request_type"]
+        }
+        Insert: {
+          admin_note?: string | null
+          allocation_id?: string | null
+          created_at?: string
+          details?: string | null
+          faculty_id: string
+          id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          suggested_lab_id?: string | null
+          title: string
+          type: Database["public"]["Enums"]["request_type"]
+        }
+        Update: {
+          admin_note?: string | null
+          allocation_id?: string | null
+          created_at?: string
+          details?: string | null
+          faculty_id?: string
+          id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          suggested_lab_id?: string | null
+          title?: string
+          type?: Database["public"]["Enums"]["request_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "requests_allocation_id_fkey"
+            columns: ["allocation_id"]
+            isOneToOne: false
+            referencedRelation: "allocations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "requests_suggested_lab_id_fkey"
+            columns: ["suggested_lab_id"]
+            isOneToOne: false
+            referencedRelation: "labs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       sections: {
         Row: {
@@ -183,6 +311,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "faculty"
+      request_status: "pending" | "approved" | "rejected"
+      request_type: "lab_change" | "timetable" | "resource"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -311,6 +441,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "faculty"],
+      request_status: ["pending", "approved", "rejected"],
+      request_type: ["lab_change", "timetable", "resource"],
     },
   },
 } as const
