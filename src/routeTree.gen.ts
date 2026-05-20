@@ -13,8 +13,16 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedSectionsRouteImport } from './routes/_authenticated/sections'
+import { Route as AuthenticatedRequestsAdminRouteImport } from './routes/_authenticated/requests-admin'
+import { Route as AuthenticatedRequestsRouteImport } from './routes/_authenticated/requests'
+import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedMyScheduleRouteImport } from './routes/_authenticated/my-schedule'
+import { Route as AuthenticatedMyLabsRouteImport } from './routes/_authenticated/my-labs'
 import { Route as AuthenticatedLabsRouteImport } from './routes/_authenticated/labs'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAttendanceRouteImport } from './routes/_authenticated/attendance'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedAllocateRouteImport } from './routes/_authenticated/allocate'
 
@@ -37,6 +45,43 @@ const AuthenticatedSectionsRoute = AuthenticatedSectionsRouteImport.update({
   path: '/sections',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedRequestsAdminRoute =
+  AuthenticatedRequestsAdminRouteImport.update({
+    id: '/requests-admin',
+    path: '/requests-admin',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedRequestsRoute = AuthenticatedRequestsRouteImport.update({
+  id: '/requests',
+  path: '/requests',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMyScheduleRoute = AuthenticatedMyScheduleRouteImport.update({
+  id: '/my-schedule',
+  path: '/my-schedule',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedMyLabsRoute = AuthenticatedMyLabsRouteImport.update({
+  id: '/my-labs',
+  path: '/my-labs',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedLabsRoute = AuthenticatedLabsRouteImport.update({
   id: '/labs',
   path: '/labs',
@@ -45,6 +90,11 @@ const AuthenticatedLabsRoute = AuthenticatedLabsRouteImport.update({
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAttendanceRoute = AuthenticatedAttendanceRouteImport.update({
+  id: '/attendance',
+  path: '/attendance',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
@@ -63,8 +113,16 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/allocate': typeof AuthenticatedAllocateRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/attendance': typeof AuthenticatedAttendanceRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/labs': typeof AuthenticatedLabsRoute
+  '/my-labs': typeof AuthenticatedMyLabsRoute
+  '/my-schedule': typeof AuthenticatedMyScheduleRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/reports': typeof AuthenticatedReportsRoute
+  '/requests': typeof AuthenticatedRequestsRoute
+  '/requests-admin': typeof AuthenticatedRequestsAdminRoute
   '/sections': typeof AuthenticatedSectionsRoute
 }
 export interface FileRoutesByTo {
@@ -72,8 +130,16 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/allocate': typeof AuthenticatedAllocateRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/attendance': typeof AuthenticatedAttendanceRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/labs': typeof AuthenticatedLabsRoute
+  '/my-labs': typeof AuthenticatedMyLabsRoute
+  '/my-schedule': typeof AuthenticatedMyScheduleRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/reports': typeof AuthenticatedReportsRoute
+  '/requests': typeof AuthenticatedRequestsRoute
+  '/requests-admin': typeof AuthenticatedRequestsAdminRoute
   '/sections': typeof AuthenticatedSectionsRoute
 }
 export interface FileRoutesById {
@@ -83,8 +149,16 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_authenticated/allocate': typeof AuthenticatedAllocateRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/attendance': typeof AuthenticatedAttendanceRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/labs': typeof AuthenticatedLabsRoute
+  '/_authenticated/my-labs': typeof AuthenticatedMyLabsRoute
+  '/_authenticated/my-schedule': typeof AuthenticatedMyScheduleRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/reports': typeof AuthenticatedReportsRoute
+  '/_authenticated/requests': typeof AuthenticatedRequestsRoute
+  '/_authenticated/requests-admin': typeof AuthenticatedRequestsAdminRoute
   '/_authenticated/sections': typeof AuthenticatedSectionsRoute
 }
 export interface FileRouteTypes {
@@ -94,8 +168,16 @@ export interface FileRouteTypes {
     | '/login'
     | '/allocate'
     | '/analytics'
+    | '/attendance'
     | '/dashboard'
     | '/labs'
+    | '/my-labs'
+    | '/my-schedule'
+    | '/notifications'
+    | '/profile'
+    | '/reports'
+    | '/requests'
+    | '/requests-admin'
     | '/sections'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -103,8 +185,16 @@ export interface FileRouteTypes {
     | '/login'
     | '/allocate'
     | '/analytics'
+    | '/attendance'
     | '/dashboard'
     | '/labs'
+    | '/my-labs'
+    | '/my-schedule'
+    | '/notifications'
+    | '/profile'
+    | '/reports'
+    | '/requests'
+    | '/requests-admin'
     | '/sections'
   id:
     | '__root__'
@@ -113,8 +203,16 @@ export interface FileRouteTypes {
     | '/login'
     | '/_authenticated/allocate'
     | '/_authenticated/analytics'
+    | '/_authenticated/attendance'
     | '/_authenticated/dashboard'
     | '/_authenticated/labs'
+    | '/_authenticated/my-labs'
+    | '/_authenticated/my-schedule'
+    | '/_authenticated/notifications'
+    | '/_authenticated/profile'
+    | '/_authenticated/reports'
+    | '/_authenticated/requests'
+    | '/_authenticated/requests-admin'
     | '/_authenticated/sections'
   fileRoutesById: FileRoutesById
 }
@@ -154,6 +252,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSectionsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/requests-admin': {
+      id: '/_authenticated/requests-admin'
+      path: '/requests-admin'
+      fullPath: '/requests-admin'
+      preLoaderRoute: typeof AuthenticatedRequestsAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/requests': {
+      id: '/_authenticated/requests'
+      path: '/requests'
+      fullPath: '/requests'
+      preLoaderRoute: typeof AuthenticatedRequestsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/reports': {
+      id: '/_authenticated/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AuthenticatedReportsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/my-schedule': {
+      id: '/_authenticated/my-schedule'
+      path: '/my-schedule'
+      fullPath: '/my-schedule'
+      preLoaderRoute: typeof AuthenticatedMyScheduleRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/my-labs': {
+      id: '/_authenticated/my-labs'
+      path: '/my-labs'
+      fullPath: '/my-labs'
+      preLoaderRoute: typeof AuthenticatedMyLabsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/labs': {
       id: '/_authenticated/labs'
       path: '/labs'
@@ -166,6 +313,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/attendance': {
+      id: '/_authenticated/attendance'
+      path: '/attendance'
+      fullPath: '/attendance'
+      preLoaderRoute: typeof AuthenticatedAttendanceRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/analytics': {
@@ -188,16 +342,32 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedAllocateRoute: typeof AuthenticatedAllocateRoute
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedAttendanceRoute: typeof AuthenticatedAttendanceRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedLabsRoute: typeof AuthenticatedLabsRoute
+  AuthenticatedMyLabsRoute: typeof AuthenticatedMyLabsRoute
+  AuthenticatedMyScheduleRoute: typeof AuthenticatedMyScheduleRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
+  AuthenticatedRequestsRoute: typeof AuthenticatedRequestsRoute
+  AuthenticatedRequestsAdminRoute: typeof AuthenticatedRequestsAdminRoute
   AuthenticatedSectionsRoute: typeof AuthenticatedSectionsRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAllocateRoute: AuthenticatedAllocateRoute,
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedAttendanceRoute: AuthenticatedAttendanceRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedLabsRoute: AuthenticatedLabsRoute,
+  AuthenticatedMyLabsRoute: AuthenticatedMyLabsRoute,
+  AuthenticatedMyScheduleRoute: AuthenticatedMyScheduleRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedReportsRoute: AuthenticatedReportsRoute,
+  AuthenticatedRequestsRoute: AuthenticatedRequestsRoute,
+  AuthenticatedRequestsAdminRoute: AuthenticatedRequestsAdminRoute,
   AuthenticatedSectionsRoute: AuthenticatedSectionsRoute,
 }
 
