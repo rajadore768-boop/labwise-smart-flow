@@ -1,13 +1,29 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { LayoutDashboard, Boxes, Users, Sparkles, BarChart3, LogOut } from "lucide-react";
+import {
+  LayoutDashboard, Boxes, Users, Sparkles, BarChart3, LogOut,
+  FileText, Inbox, CalendarDays, ClipboardCheck, Bell, Send, UserCircle,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-const nav = [
+type NavItem = { to: string; label: string; icon: any; group: string };
+
+const adminNav: NavItem[] = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, group: "Management" },
   { to: "/labs", label: "Lab Inventory", icon: Boxes, group: "Management" },
   { to: "/sections", label: "Sections", icon: Users, group: "Management" },
   { to: "/allocate", label: "Allocation Engine", icon: Sparkles, group: "Optimization" },
   { to: "/analytics", label: "Analytics", icon: BarChart3, group: "Optimization" },
+  { to: "/reports", label: "Reports", icon: FileText, group: "Optimization" },
+  { to: "/requests-admin", label: "Requests Inbox", icon: Inbox, group: "Governance" },
+];
+
+const facultyNav: NavItem[] = [
+  { to: "/my-schedule", label: "My Schedule", icon: CalendarDays, group: "Workspace" },
+  { to: "/my-labs", label: "Assigned Labs", icon: Boxes, group: "Workspace" },
+  { to: "/attendance", label: "Attendance", icon: ClipboardCheck, group: "Workspace" },
+  { to: "/requests", label: "My Requests", icon: Send, group: "Communication" },
+  { to: "/notifications", label: "Notifications", icon: Bell, group: "Communication" },
+  { to: "/profile", label: "Profile", icon: UserCircle, group: "Account" },
 ];
 
 export function AppSidebar({ userName, role }: { userName: string; role: string }) {
@@ -19,6 +35,7 @@ export function AppSidebar({ userName, role }: { userName: string; role: string 
     navigate({ to: "/login" });
   }
 
+  const nav = role === "admin" ? adminNav : facultyNav;
   const groups = Array.from(new Set(nav.map((n) => n.group)));
 
   return (
