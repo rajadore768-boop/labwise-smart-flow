@@ -1,10 +1,18 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { Link } from "@tanstack/react-router";
+import { useNavigate, Link } from "@tanstack/react-router";
 import { ShieldAlert } from "lucide-react";
 
 export function RequireAdmin({ children }: { children: ReactNode }) {
   const { loading, role } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && role && role !== "admin") {
+      navigate({ to: "/my-schedule" });
+    }
+  }, [loading, role, navigate]);
+
   if (loading) return <div className="p-10 text-sm text-muted-foreground font-mono">Checking access…</div>;
   if (role !== "admin") {
     return (
@@ -13,10 +21,10 @@ export function RequireAdmin({ children }: { children: ReactNode }) {
           <ShieldAlert className="size-8 mx-auto text-destructive" />
           <h2 className="font-display text-xl">Admin access required</h2>
           <p className="text-sm text-muted-foreground">
-            This module is restricted to administrators. Faculty accounts cannot view or modify it.
+            Redirecting you to your faculty workspace…
           </p>
           <Link to="/my-schedule" className="inline-block text-xs font-semibold text-primary uppercase tracking-wider">
-            Go to faculty workspace →
+            Go now →
           </Link>
         </div>
       </div>
