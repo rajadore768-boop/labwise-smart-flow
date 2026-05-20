@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, Outlet, useNavigate, Link, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth } from "@/hooks/useAuth";
@@ -77,5 +77,3 @@ function AuthenticatedLayout() {
   );
 }
 
-// Keep unused-import warning quiet while preserving Link export availability for child routes
-export const _link = Link;
