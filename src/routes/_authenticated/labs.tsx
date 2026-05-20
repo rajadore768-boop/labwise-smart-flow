@@ -3,11 +3,12 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/Page";
+import { RequireAdmin } from "@/components/RequireAdmin";
 import { toast } from "sonner";
 import { Plus, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/labs")({
-  component: LabsPage,
+  component: () => <RequireAdmin><LabsPage /></RequireAdmin>,
   head: () => ({ meta: [{ title: "Lab Inventory — SmartLab" }] }),
 });
 

@@ -3,12 +3,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/Page";
+import { RequireAdmin } from "@/components/RequireAdmin";
 import { bestFit } from "@/lib/bestFit";
 import { toast } from "sonner";
 import { Check, X } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/allocate")({
-  component: AllocateEngine,
+  component: () => <RequireAdmin><AllocateEngine /></RequireAdmin>,
   head: () => ({ meta: [{ title: "Allocation Engine — SmartLab" }] }),
 });
 
